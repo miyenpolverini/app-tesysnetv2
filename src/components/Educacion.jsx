@@ -5,7 +5,10 @@ import { SectionTitle, CourseCard, FadeInSection } from "./ui/Shared";
 export default function Educacion() {
   const [eduTab, setEduTab] = useState("presencial");
   
-  const scrollTo = id => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  const sendWA = (curso) => {
+    const text = encodeURIComponent(`¡Hola Tesysnet! 👋 Estoy interesado/a en inscribirme al curso presencial de: ${curso}`);
+    window.open(`https://wa.me/${CONFIG.whatsapp}?text=${text}`, "_blank");
+  };
 
   return (
     <section id="educacion" style={{ padding: "6rem 2rem", background: C.dark }}>
@@ -39,7 +42,7 @@ export default function Educacion() {
               </p>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 16 }}>
                 {COURSES_PRESENCIAL.map(c => (
-                  <CourseCard key={c.name} c={c} onContact={() => scrollTo("contacto")} />
+                  <CourseCard key={c.name} c={c} onContact={() => sendWA(c.name)} />
                 ))}
               </div>
             </>

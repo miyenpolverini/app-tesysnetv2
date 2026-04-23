@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { C, PRODUCTS, PRODUCT_CATS } from "../data/constants";
+import { C, PRODUCTS, PRODUCT_CATS, CONFIG } from "../data/constants";
 import { SectionTitle, FadeInSection } from "./ui/Shared";
 import { Gift } from "lucide-react";
 
@@ -10,7 +10,10 @@ export default function Productos() {
   const hoverCard = e => { e.currentTarget.style.borderColor = C.cyan; e.currentTarget.style.transform = "translateY(-4px)"; };
   const leaveCard = e => { e.currentTarget.style.borderColor = C.darkBorder; e.currentTarget.style.transform = "none"; };
   
-  const scrollTo = id => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  const sendWA = (item) => {
+    const text = encodeURIComponent(`¡Hola Tesysnet! 👋 Estoy interesado/a en consultar por: ${item}`);
+    window.open(`https://wa.me/${CONFIG.whatsapp}?text=${text}`, "_blank");
+  };
 
   return (
     <section id="productos" style={{ padding: "6rem 2rem", background: C.dark }}>
@@ -64,7 +67,7 @@ export default function Productos() {
                       <Gift size={12} /> +{p.points} pts
                     </span>
                   </div>
-                  <button onClick={() => scrollTo("contacto")}
+                  <button onClick={() => sendWA(p.name)}
                     style={{
                       width: "100%", background: `linear-gradient(135deg,${C.cyan},${C.green})`,
                       color: "#000", border: "none", borderRadius: 8,
@@ -77,7 +80,7 @@ export default function Productos() {
             ))}
           </div>
           <div style={{ textAlign: "center", marginTop: "2.5rem" }}>
-            <button onClick={() => scrollTo("contacto")}
+            <button onClick={() => sendWA("Catálogo completo de productos")}
               style={{
                 background: "transparent", border: `1.5px solid ${C.cyan}`,
                 color: C.cyan, borderRadius: 10, padding: "12px 34px",

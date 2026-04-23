@@ -1,11 +1,14 @@
-import { C, SERVICES } from "../data/constants";
+import { C, SERVICES, CONFIG } from "../data/constants";
 import { SectionTitle, FadeInSection } from "./ui/Shared";
 
 export default function Servicios() {
   const hoverCard = e => { e.currentTarget.style.borderColor = C.cyan; e.currentTarget.style.transform = "translateY(-4px)"; };
   const leaveCard = e => { e.currentTarget.style.borderColor = C.darkBorder; e.currentTarget.style.transform = "none"; };
   
-  const scrollTo = id => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  const sendWA = (servicio) => {
+    const text = encodeURIComponent(`¡Hola Tesysnet! 👋 Estoy interesado/a en consultar por su servicio de: ${servicio}`);
+    window.open(`https://wa.me/${CONFIG.whatsapp}?text=${text}`, "_blank");
+  };
 
   return (
     <section id="servicios" style={{ padding: "6rem 2rem", background: "#0a1628" }}>
@@ -40,7 +43,7 @@ export default function Servicios() {
                     </li>
                   ))}
                 </ul>
-                <button onClick={() => scrollTo("contacto")}
+                <button onClick={() => sendWA(s.title)}
                   style={{
                     background: "transparent", border: `1.5px solid ${C.cyan}`,
                     color: C.cyan, borderRadius: 8, padding: "9px 20px",
