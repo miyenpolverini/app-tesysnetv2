@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { C, CONFIG } from "../data/constants";
 import { SectionTitle, MapEmbed, FadeInSection } from "./ui/Shared";
-import { IcoInstagram, IcoFacebook } from "./icons/Icons";
+import { IcoInstagram, IcoFacebook, IcoWhatsapp } from "./icons/Icons";
 
 export default function Contacto() {
   const [form, setForm] = useState({ nombre: "", email: "", asunto: "", mensaje: "" });
@@ -59,9 +59,10 @@ export default function Contacto() {
                 style={{
                   background: `linear-gradient(135deg,${C.cyan},${C.green})`,
                   color: "#000", border: "none", borderRadius: 10,
-                  padding: "14px", fontSize: 16, fontWeight: 800, cursor: "pointer"
+                  padding: "14px", fontSize: 16, fontWeight: 800, cursor: "pointer",
+                  display: "flex", alignItems: "center", justifyContent: "center", gap: "8px"
                 }}>
-                💬 Enviar por WhatsApp
+                <IcoWhatsapp size={24} color="#000" /> Enviar por WhatsApp
               </button>
 
               {/* Iconos redes sociales */}
@@ -94,7 +95,6 @@ export default function Contacto() {
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
                 {[
                   { icon: "📍", label: "Dirección", val: "Carlos Pellegrini 955\nGeneral Rodríguez" },
-                  { icon: "📞", label: "Teléfono", val: CONFIG.telefono },
                   { icon: "🕐", label: "Semana", val: CONFIG.horario1 },
                   { icon: "🕐", label: "Sábados", val: CONFIG.horario2 },
                 ].map(c => (

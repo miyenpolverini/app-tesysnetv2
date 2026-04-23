@@ -6,11 +6,11 @@ export const CONFIG = {
   direccion: "Carlos Pellegrini 955, General Rodríguez, Bs. As.",
   horario1: "Lun a Vie: 9 a 13hs y 15:30 a 19:30hs",
   horario2: "Sábados: 9 a 13hs",
-  instagram: "https://www.instagram.com/tesysnet",
+  instagram: "https://www.instagram.com/tesys_store",
   facebook: "https://www.facebook.com/tesys/",
   isiv: "http://www.isiv.edu.ar",
-  mapLat: -34.6054,
-  mapLng: -58.9507,
+  mapLat: -34.60838506506757,
+  mapLng: -58.95045564629976, 
 };
 
 // ─── PALETA ───────────────────────────────────────────────────────────────────
@@ -27,6 +27,7 @@ export const C = {
 // ─── DATOS ────────────────────────────────────────────────────────────────────
 export const NAV_LINKS = [
   { label: "Nosotros", id: "nosotros" },
+  { label: "Asesor", id: "asesor" },
   { label: "Productos", id: "productos" },
   { label: "Servicios", id: "servicios" },
   { label: "Educación", id: "educacion" },
@@ -61,18 +62,18 @@ export const SERVICES = [
 ];
 
 export const PRODUCTS = [
-  { name: "Toner HP 85A", category: "Insumos", price: "Consultar", img: null, emoji: "🖨️" },
-  { name: "Toner Samsung MLT-D101", category: "Insumos", price: "Consultar", img: null, emoji: "🖨️" },
-  { name: "Cartucho Epson T664", category: "Insumos", price: "Consultar", img: null, emoji: "🖨️" },
-  { name: "Mouse inalámbrico", category: "Periféricos", price: "Consultar", img: null, emoji: "🖱️" },
-  { name: "Teclado USB", category: "Periféricos", price: "Consultar", img: null, emoji: "⌨️" },
-  { name: "Auriculares con micrófono", category: "Periféricos", price: "Consultar", img: null, emoji: "🎧" },
-  { name: "Memoria RAM DDR4 8GB", category: "Componentes", price: "Consultar", img: null, emoji: "💾" },
-  { name: "SSD 240GB", category: "Componentes", price: "Consultar", img: null, emoji: "💽" },
-  { name: "Pendrive 64GB", category: "Almacenamiento", price: "Consultar", img: null, emoji: "📦" },
-  { name: "Disco externo 1TB", category: "Almacenamiento", price: "Consultar", img: null, emoji: "💿" },
-  { name: "Cable HDMI 1.8m", category: "Cables", price: "Consultar", img: null, emoji: "🔌" },
-  { name: "Cable UTP Cat6 x metro", category: "Cables", price: "Consultar", img: null, emoji: "🔌" },
+  { name: "Toner HP 85A", category: "Insumos", price: "Consultar", img: null, emoji: "🖨️", points: 150 },
+  { name: "Toner Samsung MLT-D101", category: "Insumos", price: "Consultar", img: null, emoji: "🖨️", points: 150 },
+  { name: "Cartucho Epson T664", category: "Insumos", price: "Consultar", img: null, emoji: "🖨️", points: 100 },
+  { name: "Mouse inalámbrico", category: "Periféricos", price: "Consultar", img: null, emoji: "🖱️", points: 50 },
+  { name: "Teclado USB", category: "Periféricos", price: "Consultar", img: null, emoji: "⌨️", points: 70 },
+  { name: "Auriculares con micrófono", category: "Periféricos", price: "Consultar", img: null, emoji: "🎧", points: 90 },
+  { name: "Memoria RAM DDR4 8GB", category: "Componentes", price: "Consultar", img: null, emoji: "💾", points: 200 },
+  { name: "SSD 240GB", category: "Componentes", price: "Consultar", img: null, emoji: "💽", points: 250 },
+  { name: "Pendrive 64GB", category: "Almacenamiento", price: "Consultar", img: null, emoji: "📦", points: 60 },
+  { name: "Disco externo 1TB", category: "Almacenamiento", price: "Consultar", img: null, emoji: "💿", points: 400 },
+  { name: "Cable HDMI 1.8m", category: "Cables", price: "Consultar", img: null, emoji: "🔌", points: 20 },
+  { name: "Cable UTP Cat6 x metro", category: "Cables", price: "Consultar", img: null, emoji: "🔌", points: 10 },
 ];
 
 export const PRODUCT_CATS = ["Todos", "Insumos", "Periféricos", "Componentes", "Almacenamiento", "Cables"];

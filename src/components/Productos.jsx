@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { C, PRODUCTS, PRODUCT_CATS } from "../data/constants";
 import { SectionTitle, FadeInSection } from "./ui/Shared";
+import { Gift } from "lucide-react";
 
 export default function Productos() {
   const [activeCat, setActiveCat] = useState("Todos");
@@ -57,8 +58,11 @@ export default function Productos() {
                   <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 8, lineHeight: 1.4, color: C.text }}>
                     {p.name}
                   </div>
-                  <div style={{ fontSize: 15, fontWeight: 800, color: C.green, marginBottom: 12 }}>
-                    {p.price}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                    <span style={{ fontSize: 15, fontWeight: 800, color: C.green }}>{p.price}</span>
+                    <span style={{ fontSize: 12, color: "#eab308", display: "flex", alignItems: "center", gap: 4, background: "rgba(234,179,8,0.1)", padding: "2px 6px", borderRadius: 4, fontWeight: 700 }}>
+                      <Gift size={12} /> +{p.points} pts
+                    </span>
                   </div>
                   <button onClick={() => scrollTo("contacto")}
                     style={{

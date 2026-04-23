@@ -50,8 +50,8 @@ export default function Navbar() {
         </div>
 
         {/* Links de navegación */}
-        <div className="desktop-nav">
-          {NAV_LINKS.map(l => (
+        <div className="desktop-nav" style={{ display: "flex", gap: "1.75rem", alignItems: "center" }}>
+          {NAV_LINKS.filter(l => l.id !== 'asesor').map(l => (
             <button key={l.id} onClick={() => scrollTo(l.id)}
               style={{
                 background: "none", border: "none", cursor: "pointer",
@@ -64,20 +64,29 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* Iconos redes sociales */}
-        <div className="desktop-social" style={{ display: "flex", gap: 16, alignItems: "center" }}>
-          <a href={CONFIG.instagram} target="_blank" rel="noreferrer"
-            style={{ color: C.muted, textDecoration: "none", display: "flex", transition: "color .2s" }}
-            onMouseEnter={e => e.currentTarget.style.color = "#e1306c"}
-            onMouseLeave={e => e.currentTarget.style.color = C.muted}>
-            <IcoInstagram size={22} />
-          </a>
-          <a href={CONFIG.facebook} target="_blank" rel="noreferrer"
-            style={{ color: C.muted, textDecoration: "none", display: "flex", transition: "color .2s" }}
-            onMouseEnter={e => e.currentTarget.style.color = "#1877f2"}
-            onMouseLeave={e => e.currentTarget.style.color = C.muted}>
-            <IcoFacebook size={22} />
-          </a>
+        {/* Botón Asesor + Redes sociales */}
+        <div className="desktop-social" style={{ display: "flex", gap: "1.5rem", alignItems: "center" }}>
+          <button onClick={() => scrollTo('asesor')} className="relative group cursor-pointer">
+            <div className="absolute -inset-1 bg-gradient-to-r from-cyan-400 to-green-400 rounded-lg blur opacity-40 group-hover:opacity-100 transition duration-200"></div>
+            <div className="relative flex items-center gap-2 bg-slate-950 border border-cyan-400/30 px-3 py-1.5 rounded-lg text-cyan-400 font-bold hover:text-white transition-colors">
+              ✨ Asesor
+            </div>
+          </button>
+
+          <div style={{ display: "flex", gap: 16, alignItems: "center", paddingLeft: "1.5rem", borderLeft: `1px solid ${C.darkBorder}` }}>
+            <a href={CONFIG.instagram} target="_blank" rel="noreferrer"
+              style={{ color: C.muted, textDecoration: "none", display: "flex", transition: "color .2s" }}
+              onMouseEnter={e => e.currentTarget.style.color = "#e1306c"}
+              onMouseLeave={e => e.currentTarget.style.color = C.muted}>
+              <IcoInstagram size={22} />
+            </a>
+            <a href={CONFIG.facebook} target="_blank" rel="noreferrer"
+              style={{ color: C.muted, textDecoration: "none", display: "flex", transition: "color .2s" }}
+              onMouseEnter={e => e.currentTarget.style.color = "#1877f2"}
+              onMouseLeave={e => e.currentTarget.style.color = C.muted}>
+              <IcoFacebook size={22} />
+            </a>
+          </div>
         </div>
 
         {/* Botón menú móvil */}
