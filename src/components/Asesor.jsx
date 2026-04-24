@@ -13,6 +13,7 @@ const ICONS = {
 export default function Asesor() {
   const [step, setStep] = useState("intro"); // intro, q-category, q-usage, q-budget, analyzing, results, checkout, success
   const [answers, setAnswers] = useState({ category: "", usage: "", budget: "" });
+  const [selectedProductTier, setSelectedProductTier] = useState("");
   const [userInfo, setUserInfo] = useState({ nombre: "", apellido: "", dni: "", email: "" });
   const [loadingText, setLoadingText] = useState("");
 
@@ -40,6 +41,7 @@ export default function Asesor() {
 
     setTimeout(() => {
       clearInterval(interval);
+      setSelectedProductTier(answers.budget);
       setStep("results");
     }, 3600);
   };
@@ -47,7 +49,7 @@ export default function Asesor() {
   const handleCheckoutSubmit = (e) => {
     e.preventDefault();
     
-    const selectedProduct = resultData.products.find(p => p.tier === answers.budget);
+    const selectedProduct = resultData.products.find(p => p.tier === selectedProductTier);
     const points = selectedProduct?.points || 500;
     const productName = selectedProduct?.name || "Equipo Recomendado";
     
@@ -186,12 +188,20 @@ Por favor, indíquenme cómo seguimos para el pago y la entrega.`;
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                   {resultData.products.map(prod => (
-                    <div key={prod.name} className={`p-6 rounded-2xl border-2 flex flex-col ${prod.tier === answers.budget ? 'border-cyan-400 bg-cyan-400/5 shadow-[0_0_20px_rgba(0,229,255,0.1)]' : 'border-slate-800 bg-slate-900/50'}`}>
-                      {prod.tier === answers.budget && (
+                    <div 
+                      key={prod.name} 
+                      onClick={() => setSelectedProductTier(prod.tier)}
+                      className={`p-6 rounded-2xl border-2 flex flex-col cursor-pointer transition-all ${prod.tier === selectedProductTier ? 'border-cyan-400 bg-cyan-400/5 shadow-[0_0_20px_rgba(0,229,255,0.1)] scale-[1.02]' : 'border-slate-800 bg-slate-900/50 hover:border-slate-600'}`}
+                    >
+                      {prod.tier === selectedProductTier ? (
                         <span className="bg-cyan-400 text-slate-950 text-xs font-bold px-3 py-1 rounded-full w-max mb-4">
-                          Recomendado para ti
+                          Seleccionado
+                        </span>
+                      ) : (
+                        <span className="bg-slate-800 text-slate-400 text-xs font-bold px-3 py-1 rounded-full w-max mb-4 opacity-0 group-hover:opacity-100">
+                          Seleccionar
                         </span>
                       )}
                       <h4 className="text-lg font-bold text-white mb-2">{prod.name}</h4>
@@ -208,8 +218,12 @@ Por favor, indíquenme cómo seguimos para el pago y la entrega.`;
                 </div>
 
                 <div className="text-center">
-                  <button onClick={() => setStep("checkout")} className="bg-gradient-to-r from-cyan-400 to-green-400 text-black px-8 py-4 rounded-xl font-bold text-lg hover:scale-105 transition-transform cursor-pointer shadow-lg shadow-cyan-500/20">
-                    ¡Lo quiero! Avanzar al checkout
+                  <button 
+                    disabled={!selectedProductTier}
+                    onClick={() => setStep("checkout")} 
+                    className="bg-gradient-to-r from-cyan-400 to-green-400 text-black px-8 py-4 rounded-xl font-bold text-lg hover:scale-105 transition-transform cursor-pointer shadow-lg shadow-cyan-500/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                  >
+                    ¡Quiero este equipo! Avanzar al checkout
                   </button>
                 </div>
               </motion.div>
@@ -276,10 +290,10 @@ Por favor, indíquenme cómo seguimos para el pago y la entrega.`;
                   </div>
                   <div>
                     <div className="text-sm text-slate-400">Puntos pendientes a sumar:</div>
-                    <div className="text-xl font-bold text-white">+{resultData.products.find(p => p.tier === answers.budget)?.points || 500} pts</div>
+                    <div className="text-xl font-bold text-white">+{resultData.products.find(p => p.tier === selectedProductTier)?.points || 500} pts</div>
                   </div>
                 </div>
-                <button onClick={() => { setStep("intro"); setAnswers({category:"",usage:"",budget:""}); setUserInfo({nombre:"",apellido:"",dni:"",email:""}); }} className="mt-8 text-cyan-400 hover:text-cyan-300 text-sm font-semibold underline cursor-pointer">
+                <button onClick={() => { setStep("intro"); setAnswers({category:"",usage:"",budget:""}); setUserInfo({nombre:"",apellido:"",dni:"",email:""}); setSelectedProductTier(""); }} className="mt-8 text-cyan-400 hover:text-cyan-300 text-sm font-semibold underline cursor-pointer">
                   Volver a realizar el test
                 </button>
               </motion.div>

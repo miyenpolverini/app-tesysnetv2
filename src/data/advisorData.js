@@ -31,7 +31,8 @@ export const ADVISOR_QUESTIONS = [
     question: "¿Qué prioridad tienes para esta compra?",
     options: [
       { id: "economy", label: "Buscar la opción más económica y rendidora" },
-      { id: "premium", label: "Quiero el mejor rendimiento sin importar tanto el precio" }
+      { id: "balanced", label: "Busco un equilibrio perfecto entre precio y rendimiento" },
+      { id: "premium", label: "Quiero el mejor rendimiento sin importar el precio" }
     ]
   }
 ];
@@ -49,9 +50,16 @@ export const ADVISOR_RESULTS = {
         points: 500
       },
       {
+        tier: "balanced",
+        name: "PC Gamer Mid-Range",
+        desc: "Procesador Intel Core i5 / Ryzen 5, Placa de video RTX 3060 o RX 6600, 16GB RAM, SSD 1TB. Ideal para jugar en 1080p Ultra.",
+        price: "Consultar",
+        points: 1000
+      },
+      {
         tier: "premium",
         name: "PC Gamer Ultra",
-        desc: "Procesador Intel Core i7 / Ryzen 7, Placa de video RTX 4060 o superior, 32GB RAM, SSD NVMe 1TB.",
+        desc: "Procesador Intel Core i7 / Ryzen 7, Placa de video RTX 4070 o superior, 32GB RAM, SSD NVMe 1TB/2TB.",
         price: "Consultar",
         points: 1500
       }
@@ -64,16 +72,23 @@ export const ADVISOR_RESULTS = {
       {
         tier: "economy",
         name: "Notebook / PC Oficina Standard",
-        desc: "Procesador Intel Core i3 / AMD Athlon, 8GB RAM, SSD 240GB. Ideal para tareas administrativas.",
+        desc: "Procesador Intel Core i3 / AMD Athlon, 8GB RAM, SSD 240GB. Ideal para tareas administrativas básicas.",
         price: "Consultar",
         points: 300
       },
       {
+        tier: "balanced",
+        name: "Setup Oficina Plus",
+        desc: "Procesador Intel Core i5 / Ryzen 5, 16GB RAM, SSD 500GB. Excelente fluidez para varias aplicaciones abiertas.",
+        price: "Consultar",
+        points: 600
+      },
+      {
         tier: "premium",
         name: "Setup Ejecutivo Multitasking",
-        desc: "Procesador Intel Core i5 / Ryzen 5, 16GB RAM, SSD 500GB. Fluidez absoluta con múltiples programas.",
+        desc: "Procesador Intel Core i7 / Ryzen 7, 32GB RAM, SSD NVMe 1TB. Velocidad extrema para bases de datos y multitarea pesada.",
         price: "Consultar",
-        points: 800
+        points: 1000
       }
     ]
   },
@@ -84,14 +99,21 @@ export const ADVISOR_RESULTS = {
       {
         tier: "economy",
         name: "Estación de Diseño Inicial",
-        desc: "Procesador Ryzen 5 / Core i5, 16GB RAM, SSD 500GB, GPU GTX 1660.",
+        desc: "Procesador Ryzen 5 / Core i5, 16GB RAM, SSD 500GB, GPU GTX 1660. Para diseño 2D fluido.",
         price: "Consultar",
         points: 700
       },
       {
+        tier: "balanced",
+        name: "Workstation Intermedia",
+        desc: "Procesador Ryzen 7 / Core i7, 32GB RAM, SSD NVMe 1TB, GPU RTX 3060. Perfecta para edición de video 4K y render 3D básico.",
+        price: "Consultar",
+        points: 1200
+      },
+      {
         tier: "premium",
-        name: "Workstation Profesional",
-        desc: "Procesador Ryzen 9 / Core i9, 32GB/64GB RAM, SSD NVMe Gen4 1TB, GPU RTX 4070. Rendimiento extremo.",
+        name: "Workstation Profesional Ultra",
+        desc: "Procesador Ryzen 9 / Core i9, 64GB RAM, SSD NVMe Gen4 2TB, GPU RTX 4080. Rendimiento extremo y tiempos de renderizado mínimos.",
         price: "Consultar",
         points: 2000
       }
