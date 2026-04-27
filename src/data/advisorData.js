@@ -1,3 +1,18 @@
+export const PRINTER_TONER_DB = [
+  { brand: "HP", model: "LaserJet Pro M15w", toner: "Tóner HP 48A", points: 150 },
+  { brand: "HP", model: "LaserJet P1102w", toner: "Tóner HP 85A", points: 150 },
+  { brand: "HP", model: "LaserJet P1005", toner: "Tóner HP 35A", points: 150 },
+  { brand: "Samsung", model: "ML-2165W", toner: "Tóner Samsung MLT-D101", points: 150 },
+  { brand: "Samsung", model: "Xpress M2020", toner: "Tóner Samsung MLT-D111S", points: 150 },
+  { brand: "Brother", model: "HL-1200", toner: "Tóner Brother TN-1060", points: 150 },
+  { brand: "Brother", model: "DCP-1617NW", toner: "Tóner Brother TN-1060", points: 150 },
+  { brand: "Brother", model: "HL-L2360DW", toner: "Tóner Brother TN-2370", points: 150 },
+  { brand: "Epson", model: "EcoTank L3150", toner: "Botellas Epson T544", points: 100 },
+  { brand: "Epson", model: "EcoTank L3250", toner: "Botellas Epson T544", points: 100 },
+  { brand: "Epson", model: "L210", toner: "Botellas Epson T664", points: 100 },
+  { brand: "Epson", model: "L3110", toner: "Botellas Epson T544", points: 100 }
+];
+
 export const ADVISOR_QUESTIONS = [
   {
     id: "category",

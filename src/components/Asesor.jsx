@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Gamepad2, Briefcase, PenTool, Monitor, Loader2, Gift, User, Mail, IdCard, CheckCircle, ChevronRight, Cpu } from "lucide-react";
-import { ADVISOR_QUESTIONS, ADVISOR_RESULTS } from "../data/advisorData";
+import { Gamepad2, Briefcase, PenTool, Monitor, Loader2, Gift, User, Mail, IdCard, CheckCircle, ChevronRight, Cpu, Printer, Search } from "lucide-react";
+import { ADVISOR_QUESTIONS, ADVISOR_RESULTS, PRINTER_TONER_DB } from "../data/advisorData";
 import { CONFIG } from "../data/constants";
 
 const ICONS = {
@@ -16,6 +16,16 @@ export default function Asesor() {
   const [selectedProductTier, setSelectedProductTier] = useState("");
   const [userInfo, setUserInfo] = useState({ nombre: "", apellido: "", dni: "", email: "" });
   const [loadingText, setLoadingText] = useState("");
+  const [printerQuery, setPrinterQuery] = useState("");
+  const [tonerSelected, setTonerSelected] = useState(null);
+
+  useEffect(() => {
+    const handleOpenToner = () => {
+      setStep("toner-search");
+    };
+    window.addEventListener("open-toner-search", handleOpenToner);
+    return () => window.removeEventListener("open-toner-search", handleOpenToner);
+  }, []);
 
   const handleAnswer = (key, value) => {
     setAnswers(prev => ({ ...prev, [key]: value }));
@@ -49,9 +59,17 @@ export default function Asesor() {
   const handleCheckoutSubmit = (e) => {
     e.preventDefault();
     
-    const selectedProduct = resultData.products.find(p => p.tier === selectedProductTier);
-    const points = selectedProduct?.points || 500;
-    const productName = selectedProduct?.name || "Equipo Recomendado";
+    let points = 500;
+    let productName = "Equipo Recomendado";
+
+    if (tonerSelected) {
+      points = tonerSelected.points || 100;
+      productName = `${tonerSelected.toner} (para ${tonerSelected.brand} ${tonerSelected.model})`;
+    } else if (resultData && resultData.products) {
+      const selectedProduct = resultData.products.find(p => p.tier === selectedProductTier);
+      points = selectedProduct?.points || 500;
+      productName = selectedProduct?.name || "Equipo Recomendado";
+    }
     
     const msg = `¡Hola Tesysnet! 👋 Vengo del Asistente Virtual y quiero avanzar con la compra:
     
@@ -109,6 +127,75 @@ Por favor, indíquenme cómo seguimos para el pago y la entrega.`;
                 >
                   Comenzar test <ChevronRight size={20} />
                 </button>
+              </motion.div>
+            )}
+
+            {/* ── TONER SEARCH ── */}
+            {step === "toner-search" && (
+              <motion.div key="toner-search" initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -50 }}>
+                <div className="text-center mb-8">
+                  <h3 className="text-2xl md:text-3xl font-black text-white mb-4">Buscador de Insumos</h3>
+                  <p className="text-slate-400 max-w-xl mx-auto">Ingresa la marca o modelo de tu impresora para saber qué cartucho o tóner lleva.</p>
+                </div>
+                
+                <div className="max-w-xl mx-auto mb-8">
+                  <div className="relative">
+                    <Search className="absolute left-4 top-4 text-slate-500" size={24} />
+                    <input 
+                      type="text" 
+                      placeholder="Ej: HP LaserJet P1102w, Epson L3150..." 
+                      className="w-full bg-slate-900 border-2 border-slate-800 rounded-xl py-4 pl-14 pr-4 text-white focus:outline-none focus:border-cyan-400 transition-colors text-lg shadow-[0_0_15px_rgba(0,229,255,0.05)]"
+                      value={printerQuery}
+                      onChange={e => setPrinterQuery(e.target.value)}
+                    />
+                  </div>
+                </div>
+                
+                <div className="max-w-2xl mx-auto min-h-[200px]">
+                  {printerQuery.length > 1 ? (
+                    <div className="grid gap-4">
+                      {PRINTER_TONER_DB.filter(p => `${p.brand} ${p.model}`.toLowerCase().includes(printerQuery.toLowerCase())).map(printer => (
+                         <div key={printer.model} className="bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 hover:border-cyan-400/50 transition-colors">
+                            <div>
+                               <div className="text-slate-400 text-sm font-semibold">{printer.brand}</div>
+                               <div className="text-white font-bold text-lg">{printer.model}</div>
+                            </div>
+                            <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 flex-1 md:ml-4 text-center">
+                               <div className="text-cyan-400 font-bold">{printer.toner}</div>
+                               <div className="text-xs text-yellow-500 mt-1 flex items-center justify-center gap-1"><Gift size={12}/> +{printer.points} pts</div>
+                            </div>
+                            <button 
+                              onClick={() => {
+                                setTonerSelected(printer);
+                                setStep("checkout");
+                              }}
+                              className="bg-gradient-to-r from-cyan-400 to-green-400 text-slate-950 px-6 py-3 rounded-lg font-bold hover:scale-105 transition-transform w-full md:w-auto shadow-lg shadow-cyan-500/20"
+                            >
+                              Lo quiero
+                            </button>
+                         </div>
+                      ))}
+                      {PRINTER_TONER_DB.filter(p => `${p.brand} ${p.model}`.toLowerCase().includes(printerQuery.toLowerCase())).length === 0 && (
+                        <div className="text-center bg-slate-900/50 border border-slate-800 rounded-xl p-8">
+                           <div className="text-slate-400 mb-4">No encontramos esa impresora en nuestra base rápida.</div>
+                           <a href={`https://wa.me/${CONFIG.whatsapp}?text=Hola, quiero consultar por un tóner para la impresora modelo: ${printerQuery}`} target="_blank" rel="noreferrer" className="inline-block bg-white text-slate-950 font-bold px-6 py-3 rounded-lg hover:bg-slate-200 transition-colors">
+                             Consultar por WhatsApp
+                           </a>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                     <div className="text-center text-slate-500 pt-8 flex flex-col items-center">
+                        <Printer size={48} className="mb-4 opacity-20" />
+                        Escribe al menos 2 letras para buscar...
+                     </div>
+                  )}
+                </div>
+                <div className="text-center mt-8 pt-6 border-t border-slate-800/50">
+                  <button onClick={() => { setStep("intro"); setPrinterQuery(""); }} className="text-slate-400 hover:text-white transition-colors underline cursor-pointer">
+                    Volver al inicio
+                  </button>
+                </div>
               </motion.div>
             )}
 
@@ -290,10 +377,10 @@ Por favor, indíquenme cómo seguimos para el pago y la entrega.`;
                   </div>
                   <div>
                     <div className="text-sm text-slate-400">Puntos pendientes a sumar:</div>
-                    <div className="text-xl font-bold text-white">+{resultData.products.find(p => p.tier === selectedProductTier)?.points || 500} pts</div>
+                    <div className="text-xl font-bold text-white">+{tonerSelected ? tonerSelected.points : resultData?.products?.find(p => p.tier === selectedProductTier)?.points || 500} pts</div>
                   </div>
                 </div>
-                <button onClick={() => { setStep("intro"); setAnswers({category:"",usage:"",budget:""}); setUserInfo({nombre:"",apellido:"",dni:"",email:""}); setSelectedProductTier(""); }} className="mt-8 text-cyan-400 hover:text-cyan-300 text-sm font-semibold underline cursor-pointer">
+                <button onClick={() => { setStep("intro"); setAnswers({category:"",usage:"",budget:""}); setUserInfo({nombre:"",apellido:"",dni:"",email:""}); setSelectedProductTier(""); setTonerSelected(null); setPrinterQuery(""); }} className="mt-8 text-cyan-400 hover:text-cyan-300 text-sm font-semibold underline cursor-pointer">
                   Volver a realizar el test
                 </button>
               </motion.div>

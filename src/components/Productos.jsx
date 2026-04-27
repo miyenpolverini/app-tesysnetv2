@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { C, PRODUCTS, PRODUCT_CATS, CONFIG } from "../data/constants";
 import { SectionTitle, FadeInSection } from "./ui/Shared";
-import { Gift } from "lucide-react";
+import { Gift, Printer } from "lucide-react";
 
 export default function Productos() {
   const [activeCat, setActiveCat] = useState("Todos");
@@ -35,6 +35,26 @@ export default function Productos() {
               </button>
             ))}
           </div>
+          
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: "2.5rem" }}>
+             <button 
+                onClick={() => {
+                   document.getElementById('asesor')?.scrollIntoView({ behavior: "smooth" });
+                   window.dispatchEvent(new CustomEvent("open-toner-search"));
+                }}
+                style={{
+                  background: "rgba(0,229,255,0.05)", border: `1.5px solid ${C.cyan}`,
+                  color: C.cyan, borderRadius: 10, padding: "12px 24px",
+                  fontSize: 15, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", gap: 8,
+                  transition: "all .2s",
+                }}
+                onMouseEnter={e => { e.currentTarget.style.background = "rgba(0,229,255,0.15)"; e.currentTarget.style.transform = "scale(1.05)"; }}
+                onMouseLeave={e => { e.currentTarget.style.background = "rgba(0,229,255,0.05)"; e.currentTarget.style.transform = "scale(1)"; }}
+             >
+                <Printer size={20} /> ¿Qué tóner o cartucho usa mi impresora?
+             </button>
+          </div>
+
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(200px,1fr))", gap: 20 }}>
             {filtered.map(p => (
               <div key={p.name}
