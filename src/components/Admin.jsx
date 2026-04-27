@@ -1,23 +1,24 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Shield, UserPlus, Search, Gift, Save, LogOut, CheckCircle, Loader2 } from "lucide-react";
+import { Shield, UserPlus, Search, Gift, Save, LogOut, CheckCircle, Loader2, Eye, EyeOff } from "lucide-react";
 import { supabase } from "../lib/supabase";
 import { C } from "../data/constants";
 
 export default function Admin() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [passwordInput, setPasswordInput] = useState("");
-  
+  const [showPassword, setShowPassword] = useState(false);
+
   // Formulario
   const [dni, setDni] = useState("");
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
   const [puntos, setPuntos] = useState("");
-  
+
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
 
-  const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD || "tesys2026";
+  const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD || "seudonimo*20";
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -51,7 +52,7 @@ export default function Admin() {
       if (cliente) {
         // 2. Cliente existe, sumamos los puntos
         const nuevosPuntos = cliente.puntos + parseInt(puntos);
-        
+
         // Usamos el nombre que ya tiene, o si el empleado escribió uno nuevo, lo actualizamos
         const nombreAUsar = nombre.trim() !== "" ? nombre.trim() : cliente.nombre;
         const apellidoAUsar = apellido.trim() !== "" ? apellido.trim() : cliente.apellido;
@@ -104,21 +105,30 @@ export default function Admin() {
           </div>
           <h2 className="text-2xl font-bold text-white text-center mb-2">Panel de Empleados</h2>
           <p className="text-slate-400 text-center mb-8 text-sm">Ingresa la contraseña para cargar puntos.</p>
-          
+
           <form onSubmit={handleLogin}>
-            <input 
-              type="password" 
-              placeholder="Contraseña" 
-              value={passwordInput}
-              onChange={(e) => setPasswordInput(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-cyan-400 transition-colors mb-4 text-center" 
-            />
+            <div className="relative mb-4">
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Contraseña"
+                value={passwordInput}
+                onChange={(e) => setPasswordInput(e.target.value)}
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 pl-12 pr-12 text-white focus:outline-none focus:border-cyan-400 transition-colors text-center"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-3 text-slate-500 hover:text-cyan-400 transition-colors"
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
             {message.type === "error" && <p className="text-red-400 text-sm text-center mb-4">{message.text}</p>}
             <button type="submit" className="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold py-3 rounded-xl transition-colors">
               Ingresar
             </button>
           </form>
-          
+
           <div className="text-center mt-6">
             <button onClick={() => window.location.hash = ""} className="text-slate-500 text-sm hover:text-white underline">Volver a la tienda</button>
           </div>
@@ -140,36 +150,36 @@ export default function Admin() {
 
       <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="bg-slate-900 border border-slate-800 p-8 rounded-3xl w-full max-w-2xl shadow-2xl relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-green-500/10 blur-[80px] pointer-events-none" />
-        
+
         <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
           <Gift className="text-green-400" /> Cargar Puntos a Cliente
         </h2>
 
         <form onSubmit={handleCargarPuntos} className="space-y-6 relative z-10">
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
               <label className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">DNI del Cliente *</label>
               <div className="relative">
                 <Search className="absolute left-3 top-3.5 text-slate-500" size={18} />
-                <input 
+                <input
                   type="text" required
                   placeholder="Sin puntos"
                   value={dni} onChange={(e) => setDni(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 pl-10 pr-4 text-white focus:border-cyan-400 transition-colors" 
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 pl-10 pr-4 text-white focus:border-cyan-400 transition-colors"
                 />
               </div>
             </div>
-            
+
             <div>
               <label className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">Nombre</label>
               <div className="relative">
                 <UserPlus className="absolute left-3 top-3.5 text-slate-500" size={18} />
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   placeholder="Sólo si es nuevo"
                   value={nombre} onChange={(e) => setNombre(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 pl-10 pr-4 text-white focus:border-cyan-400 transition-colors" 
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 pl-10 pr-4 text-white focus:border-cyan-400 transition-colors"
                 />
               </div>
             </div>
@@ -178,11 +188,11 @@ export default function Admin() {
               <label className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">Apellido</label>
               <div className="relative">
                 <UserPlus className="absolute left-3 top-3.5 text-slate-500" size={18} />
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   placeholder="Sólo si es nuevo"
                   value={apellido} onChange={(e) => setApellido(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 pl-10 pr-4 text-white focus:border-cyan-400 transition-colors" 
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 pl-10 pr-4 text-white focus:border-cyan-400 transition-colors"
                 />
               </div>
             </div>
@@ -192,11 +202,11 @@ export default function Admin() {
             <label className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">Puntos a Sumar *</label>
             <div className="relative">
               <Gift className="absolute left-3 top-3.5 text-yellow-500" size={18} />
-              <input 
+              <input
                 type="number" required min="1"
                 placeholder="Ejemplo: 500"
                 value={puntos} onChange={(e) => setPuntos(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 pl-10 pr-4 text-yellow-500 font-bold focus:border-cyan-400 transition-colors text-xl" 
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 pl-10 pr-4 text-yellow-500 font-bold focus:border-cyan-400 transition-colors text-xl"
               />
             </div>
             <p className="text-xs text-slate-500 mt-2">Si el cliente ya existe, estos puntos se sumarán a su saldo actual.</p>
@@ -209,7 +219,7 @@ export default function Admin() {
             </motion.div>
           )}
 
-          <button 
+          <button
             type="submit" disabled={loading}
             className="w-full bg-gradient-to-r from-cyan-500 to-green-500 text-slate-950 font-black py-4 rounded-xl hover:scale-[1.02] transition-transform flex justify-center items-center gap-2 cursor-pointer disabled:opacity-50 disabled:scale-100"
           >
